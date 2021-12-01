@@ -33,7 +33,6 @@ public class Session {
                     preparedStatement.setObject(1, id);
 
                     ResultSet resultSet = preparedStatement.executeQuery();
-                    resultSet.next();
                     T entity = parseResultSet(entityType, resultSet);
 
                     store.put(key, entity);
@@ -123,7 +122,7 @@ public class Session {
 
     @SneakyThrows
     private <T extends BaseEntity> T parseResultSet(Class<T> type, ResultSet resultSet) {
-
+        resultSet.next();
         T entity = type.getDeclaredConstructor().newInstance();
 
         for (Field field : getFieldsFromObject(type)) {
